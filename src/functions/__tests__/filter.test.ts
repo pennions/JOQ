@@ -1,5 +1,5 @@
-const { default: JOQ } = require('../../joq');
-const { FilterOperator } = require('../filter');
+import JOQ from "../../joq";
+import { FilterOperator } from "../filter";
 
 const testArray = [
     {
@@ -24,7 +24,6 @@ const testArray = [
         delete_date: "2021-11-05T01:05:24.263Z"
     }
 ];
-
 
 describe("Tests the filters", () => {
     test("It can do a like search on a string", () => {
