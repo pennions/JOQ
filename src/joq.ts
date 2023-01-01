@@ -1,23 +1,41 @@
-import { SortDetails, sortJsonArray } from "./functions/sort";
+import { FilterDetail, filterJsonArray } from "./functions/filter";
+import { SortDetail, SortDirection, sortJsonArray } from "./functions/sort";
 
 class JOQ {
 
-    private model: Array<JSON>;
+    private model: Array<any>;
+    private sortDetails: Array<SortDetail> = [];
+    private filterDetails: Array<FilterDetail> = [];
 
     /**
      * Jelmers Object Query Class
      */
-    constructor(jsonArray: Array<JSON>) {
+    constructor(jsonArray: Array<any>) {
         /** Make a hard copy */
         this.model = Object.assign([], jsonArray);
     }
 
-    sort(sortDetails: Array<SortDetails>) {
-        sortJsonArray(this.model, sortDetails);
+    /** Same as order, but here you can give the complete sorting details.*/
+    sort(sortDetails: Array<SortDetail>) {
+        this.sortDetails = sortDetails;
         return this;
     }
 
-    where() { return 'Not implemented'; };
+    /** Order the array ascending or descending for the values of given property*/
+    orderBy(propertyName: string, direction: SortDirection) {
+        this.sortDetails.push({ column: propertyName, direction });
+        return this;
+    }
+
+    /** Add a consecutive ordering of the array ascending or descending for the values of given property*/
+    thenOrderBy(propertyName: string, direction: SortDirection) {
+        return this.orderBy(propertyName, direction);
+    }
+
+    where(filterDetails: Array<FilterDetail>) {
+        this.filterDetails = filterDetails;
+        return this;
+    };
     andWhere() { return 'Not implemented'; };
     orWhere() { return 'Not implemented'; };
 
@@ -27,7 +45,9 @@ class JOQ {
     sum() { return 'Not implemented'; };
     select() { return 'Not implemented'; };
     execute() {
-        return this.model;
+        const queryResults = filterJsonArray(this.model, this.filterDetails);
+        sortJsonArray(queryResults, this.sortDetails);
+        return queryResults;
     }
 }
 

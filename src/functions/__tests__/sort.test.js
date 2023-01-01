@@ -1,5 +1,5 @@
-import { SortDirection, sortJsonArray } from '../sort';
-
+import JOQ from '../../joq';
+import { SortDirection } from '../sort';
 
 const testArray = [
     {
@@ -37,22 +37,30 @@ const testArray = [
 describe("Tests sorting function", () => {
 
     test('It sorts the testArray by Name, in Ascending order', () => {
-        const result = sortJsonArray(testArray, [{ column: "name", direction: SortDirection.ascending }]);
+        const joq = new JOQ(testArray);
+        joq.sort([{ column: "name", direction: SortDirection.ascending }]);
+        const result = joq.execute();
         expect(result[0].name).toBe('Anne');
     });
 
     test('It sorts the testArray by Name, in Descending order', () => {
-        const result = sortJsonArray(testArray, [{ column: "name", direction: SortDirection.descending }]);
+        const joq = new JOQ(testArray);
+        joq.sort([{ column: "name", direction: SortDirection.descending }]);
+        const result = joq.execute();
         expect(result[0].name).toBe('Mark');
     });
 
     test('It sorts the testArray by Name and then By Rollno, in Ascending order', () => {
-        const result = sortJsonArray(testArray, [{ column: "name", direction: SortDirection.ascending }, { column: "rollNo", direction: SortDirection.ascending }]);
+        const joq = new JOQ(testArray);
+        joq.sort([{ column: "name", direction: SortDirection.ascending }, { column: "rollNo", direction: SortDirection.ascending }]);
+        const result = joq.execute();
         expect(result[5].rollNo).toBe('R06');
     });
 
     test('It sorts the testArray by Name Descending and then By Rollno, in Ascending order', () => {
-        const result = sortJsonArray(testArray, [{ column: "name", direction: SortDirection.descending }, { column: "rollNo", direction: SortDirection.ascending }]);
+        const joq = new JOQ(testArray);
+        joq.sort([{ column: "name", direction: SortDirection.descending }, { column: "rollNo", direction: SortDirection.ascending }]);
+        const result = joq.execute();
         expect(result[0].rollNo).toBe('R01');
     });
 });

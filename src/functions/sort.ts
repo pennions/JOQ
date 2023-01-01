@@ -3,15 +3,16 @@ export enum SortDirection {
     descending = "desc"
 }
 
-export class SortDetails {
+export class SortDetail {
     constructor(public column: string, public direction: SortDirection) { }
 }
 
-export function sortJsonArray(jsonArray: Array<any>, sortDetails: Array<SortDetails>): any {
+export function sortJsonArray(jsonArray: Array<any>, sortDetails: Array<SortDetail>): any {
+    if (sortDetails.length === 0) return jsonArray;
     jsonArray.sort(sortFunction(sortDetails));
 };
 
-function sortFunction(applicableSorters: Array<SortDetails>, index = 0) {
+function sortFunction(applicableSorters: Array<SortDetail>, index = 0) {
     return function (a: any, b: any): number {
 
         const { column, direction } = applicableSorters[index];
