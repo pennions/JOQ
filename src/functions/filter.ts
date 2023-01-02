@@ -9,13 +9,13 @@ export enum FilterType {
 export enum FilterOperator {
     Greater = ">",
     Lesser = "<",
-    EqualOrGreater = ">=",
-    EqualOrLesser = "<=",
+    EqualsOrGreater = ">=",
+    EqualsOrLesser = "<=",
     Is = "is",
-    Equal = "==",
-    NotEqual = "!=",
-    SuperEqual = "===",
-    SuperNotEqual = "!==",
+    Equals = "==",
+    NotEquals = "!=",
+    SuperEquals = "===",
+    SuperNotEquals = "!==",
     Like = "like",
 }
 
@@ -44,11 +44,11 @@ function filterFunction(jsonArray: Array<any>, filterDetails: Array<FilterDetail
     filters.push(filterGroup);
 
     let indexThatMatch: Array<number> = [];
+
     for (const filterGroup of filters) {
-        for (const filter of filterGroup) {
-            indexThatMatch = indexThatMatch.concat(compareValues(jsonArray, filter));
-        }
+        indexThatMatch = indexThatMatch.concat(compareValues(jsonArray, filterGroup));
     }
+
     /** deduplicate */
     indexThatMatch = [...new Set(indexThatMatch)];
     const jsonArrayLength = jsonArray.length;
@@ -61,18 +61,27 @@ function filterFunction(jsonArray: Array<any>, filterDetails: Array<FilterDetail
     return searchResults;
 }
 
-export const compareValues = function (jsonArray: Array<any>, filterDetail: FilterDetail): number[] {
-    const indexes: number[] = [];
-    if (!jsonArray) return indexes;
+export const compareValues = function (jsonArray: Array<any>, filterDetails: Array<FilterDetail>): number[] {
+    const matches: any[] = [];
+    if (!jsonArray) return matches;
 
-    const comparisonValue = TypeConversion(filterDetail.value).value;
-    const comparisonFunction = getComparisonFunction(filterDetail.operator);
+    for (const [index, objectToCheck] of jsonArray.entries()) {
+        let itemMatches = true;
+        for (const filterDetail of filterDetails) {
+            const valuetocheck = TypeConversion(objectToCheck[filterDetail.column]).value;
+            const comparisonValue = TypeConversion(filterDetail.value).value;
 
-    const arrayLength = jsonArray.length;
-    for (let index = 0; index < arrayLength; index++) {
-        const objectToCheck = jsonArray[index];
+            const comparisonFunction = getComparisonFunction(filterDetail.operator);
 
-        if (comparisonFunction(objectToCheck[filterDetail.column], comparisonValue)) indexes.push(index);
+            if (!comparisonFunction(valuetocheck, comparisonValue)) {
+                itemMatches = false;
+                break;
+            }
+        }
+        /** pushing the index so we can deduplicate later with other or clauses */
+        if (itemMatches) {
+            matches.push(index);
+        }
     }
-    return indexes;
+    return matches;
 };

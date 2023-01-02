@@ -2,7 +2,7 @@ export type ValueInfo = {
     value: any;
     type: DataType;
     currencySign: string;
-}
+};
 
 export enum DataType {
     Date = "date",
@@ -13,7 +13,8 @@ export enum DataType {
     Object = "object",
     Bool = "bool",
     Currency = "currency",
-    Undefined = "undefined"
+    Undefined = "undefined",
+    Null = "null"
 }
 
 const ValueRegexes = {
@@ -24,10 +25,11 @@ const ValueRegexes = {
     array: /^\s?[[].[^,]+[\]],?/gi,
     precision: /[-+$€,.]/gm,
     string: /[a-zA-Z]/gim
-}
+};
 
 export const TypeCheck = (inputValue: any): DataType => {
 
+    if (inputValue === null || inputValue === "null") return DataType.Null;
     if (!inputValue && inputValue !== 0 && inputValue !== false) return DataType.Undefined; // !inputValue means also ignoring 0 and false
 
     const dateValue = new RegExp(ValueRegexes.date).exec(
@@ -122,6 +124,10 @@ export const TypeConversion = (inputValue: any, dataType?: DataType): ValueInfo 
         }
         case DataType.Undefined: {
             result.value = "";
+            break;
+        }
+        case DataType.Null: {
+            result.value = null;
             break;
         }
     }
