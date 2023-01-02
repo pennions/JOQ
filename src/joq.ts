@@ -1,4 +1,4 @@
-import { FilterDetail, filterJsonArray } from "./functions/filter";
+import { FilterDetail, filterJsonArray, FilterType } from "./functions/filter";
 import { SortDetail, SortDirection, sortJsonArray } from "./functions/sort";
 
 class JOQ {
@@ -36,8 +36,18 @@ class JOQ {
         this.filterDetails = filterDetails;
         return this;
     };
-    andWhere() { return 'Not implemented'; };
-    orWhere() { return 'Not implemented'; };
+    
+    andWhere(filterDetail: FilterDetail) {
+        filterDetail.type = FilterType.And;
+        this.filterDetails.push(filterDetail);
+        return this;
+    };
+
+    orWhere(filterDetail: FilterDetail) {
+        filterDetail.type = FilterType.Or;
+        this.filterDetails.push(filterDetail);
+        return this;
+    };
 
     groupBy() { return 'Not implemented'; };
     thenBy() { return 'Not implemented'; };
