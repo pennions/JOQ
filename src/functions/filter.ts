@@ -1,4 +1,4 @@
-import { getComparisonFunction } from "./comparisons";
+import { getComparisonFunction } from "./services/comparisons";
 import { TypeConversion } from "./services/value";
 
 export enum FilterType {

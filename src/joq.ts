@@ -1,4 +1,5 @@
 import { FilterDetail, filterJsonArray, FilterType } from "./functions/filter";
+import { selectJsonArray } from "./functions/select";
 import { SortDetail, SortDirection, sortJsonArray } from "./functions/sort";
 
 class JOQ {
@@ -6,6 +7,7 @@ class JOQ {
     private model: Array<any>;
     private sortDetails: Array<SortDetail> = [];
     private filterDetails: Array<FilterDetail> = [];
+    private selection: Array<string> = [];
 
     /**
      * Jelmers Object Query Class
@@ -36,7 +38,7 @@ class JOQ {
         this.filterDetails = filterDetails;
         return this;
     };
-    
+
     andWhere(filterDetail: FilterDetail) {
         filterDetail.type = FilterType.And;
         this.filterDetails.push(filterDetail);
@@ -53,11 +55,19 @@ class JOQ {
     thenBy() { return 'Not implemented'; };
 
     sum() { return 'Not implemented'; };
-    select() { return 'Not implemented'; };
+    select(selection: Array<string> | string) {
+        if (Array.isArray(selection)) {
+            this.selection = selection;
+        }
+        else if (selection !== "*") {
+            this.selection = [selection];
+        }
+    };
     execute() {
-        const queryResults = filterJsonArray(this.model, this.filterDetails);
-        sortJsonArray(queryResults, this.sortDetails);
-        return queryResults;
+        const selectedJsonArray = selectJsonArray(this.model, this.selection);
+        const filteredJsonArray = filterJsonArray(selectedJsonArray, this.filterDetails);
+        sortJsonArray(filteredJsonArray, this.sortDetails);
+        return filteredJsonArray;
     }
 }
 
