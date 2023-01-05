@@ -1,4 +1,5 @@
 import { FilterDetail, filterJsonArray, FilterType } from "./functions/filter";
+import { groupJsonArray } from "./functions/group";
 import { selectJsonArray } from "./functions/select";
 import { SortDetail, SortDirection, sortJsonArray } from "./functions/sort";
 
@@ -8,6 +9,7 @@ class JOQ {
     private sortDetails: Array<SortDetail> = [];
     private filterDetails: Array<FilterDetail> = [];
     private selection: Array<string> = [];
+    private groupByProperties: Array<string> = [];
 
     /**
      * Jelmers Object Query Class
@@ -51,10 +53,25 @@ class JOQ {
         return this;
     };
 
-    groupBy() { return 'Not implemented'; };
-    thenBy() { return 'Not implemented'; };
+    group(groupByProperties: Array<string> | string) {
+        if (Array.isArray(groupByProperties)) {
+            this.groupByProperties = groupByProperties;
+        }
+        else {
+            this.groupByProperties.push(groupByProperties);
+        }
+        return this;
+    }
 
-    sum() { return 'Not implemented'; };
+    groupBy(property: string) {
+        this.groupByProperties.push(property);
+        return this;
+    };
+    thenGroupBy(property: string) {
+        this.groupByProperties.push(property);
+        return this;
+    };
+
     select(selection: Array<string> | string) {
         if (Array.isArray(selection)) {
             this.selection = selection;
@@ -63,12 +80,17 @@ class JOQ {
             this.selection = [selection];
         }
     };
+
+    /** Executes selection, group and where statements provided */
     execute() {
         const selectedJsonArray = selectJsonArray(this.model, this.selection);
         const filteredJsonArray = filterJsonArray(selectedJsonArray, this.filterDetails);
-        sortJsonArray(filteredJsonArray, this.sortDetails);
-        return filteredJsonArray;
+        const groupedJsonArray = groupJsonArray(filteredJsonArray, this.groupByProperties);
+        sortJsonArray(groupedJsonArray, this.sortDetails);
+        return groupedJsonArray;
     }
+
+    sum() { return 'Not implemented'; };
 }
 
 export default JOQ;

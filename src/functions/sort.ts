@@ -8,8 +8,22 @@ export class SortDetail {
 }
 
 export function sortJsonArray(jsonArray: Array<any>, sortDetails: Array<SortDetail>): any {
-    if (sortDetails.length === 0) return jsonArray;
-    jsonArray.sort(sortFunction(sortDetails));
+    if (!sortDetails || sortDetails.length === 0) return jsonArray;
+
+    if (Array.isArray(jsonArray[0])) {
+        sortGroupedJsonArray(jsonArray, sortDetails);
+    }
+    else {
+        jsonArray.sort(sortFunction(sortDetails));
+    }
+};
+
+export const sortGroupedJsonArray = (groupedJsonArray: Array<Array<any>>, sortDetails: Array<SortDetail>) => {
+    const result: any[] = [];
+    for (const jsonArray of groupedJsonArray) {
+        result.push(jsonArray.sort(sortFunction(sortDetails)));
+    }
+    return result;
 };
 
 function sortFunction(applicableSorters: Array<SortDetail>, index = 0) {
@@ -40,7 +54,6 @@ function sortFunction(applicableSorters: Array<SortDetail>, index = 0) {
             valueA = valueA === "true";
             valueB = valueB === "true";
         }
-
 
         /** set the values genericly */
         let leftHandValue, rightHandValue;
