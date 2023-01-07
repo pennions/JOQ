@@ -44,12 +44,13 @@ export const TypeCheck = (inputValue: any): DataType => {
         return DataType.Currency;
     }
 
-    if (!isNaN(inputValue) || inputValue === 0) {
-        return DataType.Number;
-    }
-
+    
     if (!new RegExp(ValueRegexes.string).exec(inputValue) && new RegExp(ValueRegexes.float).exec(inputValue.toString())) {
         return DataType.Float;
+    }
+    
+    if (!isNaN(inputValue) || inputValue === 0) {
+        return DataType.Number;
     }
 
     if (Array.isArray(inputValue)) {
