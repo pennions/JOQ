@@ -1,5 +1,5 @@
 import { getComparisonFunction } from "./services/comparisons";
-import { TypeConversion } from "./services/value";
+import { getColumnValue, TypeConversion } from "./services/value";
 
 export enum FilterType {
     And = "and",
@@ -7,8 +7,8 @@ export enum FilterType {
 }
 
 export enum FilterOperator {
-    Greater = ">",
-    Lesser = "<",
+    GreaterThan = ">",
+    LesserThan = "<",
     EqualsOrGreater = ">=",
     EqualsOrLesser = "<=",
     Is = "is",
@@ -17,6 +17,9 @@ export enum FilterOperator {
     SuperEquals = "===",
     SuperNotEquals = "!==",
     Like = "like",
+    NotLike = "!like",
+    Contains = "contains",
+    NotContains = "!contains"
 }
 
 export class FilterDetail {
@@ -68,12 +71,13 @@ export const compareValues = function (jsonArray: Array<any>, filterDetails: Arr
     for (const [index, objectToCheck] of jsonArray.entries()) {
         let itemMatches = true;
         for (const filterDetail of filterDetails) {
-            const valuetocheck = TypeConversion(objectToCheck[filterDetail.column]).value;
+            const columnValue = getColumnValue(filterDetail.column, objectToCheck);
+            const parsedValue = TypeConversion(columnValue).value;
             const comparisonValue = TypeConversion(filterDetail.value).value;
 
             const comparisonFunction = getComparisonFunction(filterDetail.operator);
 
-            if (!comparisonFunction(valuetocheck, comparisonValue)) {
+            if (!comparisonFunction(parsedValue, comparisonValue)) {
                 itemMatches = false;
                 break;
             }

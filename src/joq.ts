@@ -1,4 +1,4 @@
-import { FilterDetail, filterJsonArray, FilterType } from "./functions/filter";
+import { FilterDetail, filterJsonArray, FilterOperator, FilterType } from "./functions/filter";
 import { groupJsonArray } from "./functions/group";
 import { selectJsonArray } from "./functions/select";
 import { SortDetail, SortDirection, sortJsonArray } from "./functions/sort";
@@ -38,26 +38,39 @@ class JOQ {
     }
 
     /**
-     * Set the complete where clause specifications
+     * Set the complete where / filter clause specification, for automated processes
      * @param {Array<FilterDetail>} filterDetails an array with { column: string, value: any, operator: FilterOperator, type?: FilterType }
      * @returns 
      */
-    where(filterDetails: Array<FilterDetail>) {
-        this.filterDetails = filterDetails;
+    filter(filterDetails: Array<FilterDetail>) {
+        if (Array.isArray(filterDetails)) {
+            this.filterDetails = filterDetails;
+        }
+        else {
+            this.filterDetails.push(filterDetails);
+        }
+        return this;
+    };
+
+    /**
+     * Add a where clause
+     * @param {Array<FilterDetail>} filterDetails an array with { column: string, value: any, operator: FilterOperator, type?: FilterType }
+     * @returns 
+     */
+    where(column: string, operator: FilterOperator, value: any, type?: FilterType) {
+        this.filterDetails.push({ column, operator, value, type });
         return this;
     };
 
     /** Same as where, but prefills the FilterType with 'and' */
-    andWhere(filterDetail: FilterDetail) {
-        filterDetail.type = FilterType.And;
-        this.filterDetails.push(filterDetail);
+    andWhere(column: string, operator: FilterOperator, value: any) {
+        this.where(column, operator, value, FilterType.And);
         return this;
     };
 
     /** Same as where, but prefills the FilterType with 'or' */
-    orWhere(filterDetail: FilterDetail) {
-        filterDetail.type = FilterType.Or;
-        this.filterDetails.push(filterDetail);
+    orWhere(column: string, operator: FilterOperator, value: any) {
+        this.where(column, operator, value, FilterType.Or);
         return this;
     };
 
