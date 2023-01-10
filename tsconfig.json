@@ -17,5 +17,6 @@
     "noImplicitReturns": true,
     "skipLibCheck": true
   },
-  "include": ["src", "dev", "prebuild/main.js", "rollup.config.js"]
+  "exclude": ["**/__tests__"],
+  "include": ["src"]
 }
