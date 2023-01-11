@@ -65,6 +65,7 @@ const result = queryableObject.execute();
 ### Sort / Order
 
 **propertyName**
+
 The case-sensitive name of the property you want to sort on.
 
 **direction (SortDirection)**
@@ -111,6 +112,7 @@ sort(sortDetails: Array<SortDetail>
 
 
 **propertyName**
+
 The case-sensitive name of the property you want to search on.
 
 **operator (FilterOperator)**
@@ -182,6 +184,7 @@ filter(filterDetails: Array<FilterDetail>)
 ### Group
 
 **propertyName**
+
 The case-sensitive name of the property you want to group on.
 
 **Functions**
