@@ -236,5 +236,5 @@ But you can also supply your own json array, for example if you grouped it befor
 
 Example:
 ```js
-const sum = queryableObject.sum("age", querableObject[0]);
+const sum = queryableObject.sum("age", result[0]);
 ```
