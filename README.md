@@ -71,6 +71,7 @@ The case-sensitive name of the property you want to sort on.
 Can be one of the following: 
 
 ```"asc"``` for ascending order
+
 ```"desc"``` for descending order
 
 **SortDetail**
