@@ -4,7 +4,7 @@ export enum SortDirection {
 }
 
 export class SortDetail {
-    constructor(public column: string, public direction: SortDirection) { }
+    constructor(public propertyName: string, public direction: SortDirection) { }
 }
 
 export function sortJsonArray(jsonArray: Array<any>, sortDetails: Array<SortDetail>): any {
@@ -29,10 +29,10 @@ export const sortGroupedJsonArray = (groupedJsonArray: Array<Array<any>>, sortDe
 function sortFunction(applicableSorters: Array<SortDetail>, index = 0) {
     return function (a: any, b: any): number {
 
-        const { column, direction } = applicableSorters[index];
+        const { propertyName, direction } = applicableSorters[index];
 
-        let valueA = a[column];
-        let valueB = b[column];
+        let valueA = a[propertyName];
+        let valueB = b[propertyName];
 
         const dateRegex = /^(\d{1,4}-\d{1,4}-\d{1,4}(T)?)/gim;
 

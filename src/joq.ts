@@ -28,7 +28,7 @@ class JOQ {
 
     /** Order the array ascending or descending for the values of given property*/
     orderBy(propertyName: string, direction: SortDirection) {
-        this.sortDetails.push({ column: propertyName, direction });
+        this.sortDetails.push({ propertyName, direction });
         return this;
     }
 
@@ -57,20 +57,20 @@ class JOQ {
      * @param {Array<FilterDetail>} filterDetails an array with { column: string, value: any, operator: FilterOperator, type?: FilterType }
      * @returns 
      */
-    where(column: string, operator: FilterOperator, value: any, type?: FilterType) {
-        this.filterDetails.push({ column, operator, value, type });
+    where(propertyName: string, operator: FilterOperator, value: any, type?: FilterType) {
+        this.filterDetails.push({ propertyName, operator, value, type });
         return this;
     };
 
     /** Same as where, but prefills the FilterType with 'and' */
-    andWhere(column: string, operator: FilterOperator, value: any) {
-        this.where(column, operator, value, FilterType.And);
+    andWhere(propertyName: string, operator: FilterOperator, value: any) {
+        this.where(propertyName, operator, value, FilterType.And);
         return this;
     };
 
     /** Same as where, but prefills the FilterType with 'or' */
-    orWhere(column: string, operator: FilterOperator, value: any) {
-        this.where(column, operator, value, FilterType.Or);
+    orWhere(propertyName: string, operator: FilterOperator, value: any) {
+        this.where(propertyName, operator, value, FilterType.Or);
         return this;
     };
 
@@ -79,25 +79,20 @@ class JOQ {
      * @param {Array<string> | String} groupByProperties 
      * @returns joq object
      */
-    group(groupByProperties: Array<string> | string) {
-        if (Array.isArray(groupByProperties)) {
-            this.groupByProperties = groupByProperties;
-        }
-        else {
-            this.groupByProperties.push(groupByProperties);
-        }
+    group(groupByProperties: Array<string>) {
+        this.groupByProperties = groupByProperties;
         return this;
     }
 
     /** Same as group, semantic sugar */
-    groupBy(property: string) {
-        this.groupByProperties.push(property);
+    groupBy(propertyName: string) {
+        this.groupByProperties.push(propertyName);
         return this;
     };
 
     /** Same as group, semantic sugar */
-    thenGroupBy(property: string) {
-        this.groupByProperties.push(property);
+    thenGroupBy(propertyName: string) {
+        this.groupByProperties.push(propertyName);
         return this;
     };
 

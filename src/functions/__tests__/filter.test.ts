@@ -51,7 +51,7 @@ const testArrayWithNestedObjects = [
 describe("Tests the filters", () => {
     test("It can do a like search on a string, using filter", () => {
         const joq = new JOQ(testArray);
-        joq.filter([{ column: "book", operator: FilterOperator.Like, value: "fairytales" }]);
+        joq.filter([{ propertyName: "book", operator: FilterOperator.Like, value: "fairytales" }]);
         const result = joq.execute();
         expect(result[0]).toEqual(testArray[1]);
     });
@@ -114,7 +114,7 @@ describe("Tests the filters", () => {
 
     test("It can find items with id less than 3 or with an account, using filter", () => {
         const joq = new JOQ(testArray);
-        joq.filter([{ column: "id", operator: FilterOperator.LesserThan, value: 3 }, { column: "hasAccount", operator: FilterOperator.Equals, value: true, type: FilterType.Or }]);
+        joq.filter([{ propertyName: "id", operator: FilterOperator.LesserThan, value: 3 }, { propertyName: "hasAccount", operator: FilterOperator.Equals, value: true, type: FilterType.Or }]);
         const result = joq.execute();
         expect(result.length).toBe(2);
     });

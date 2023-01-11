@@ -23,7 +23,7 @@ export enum FilterOperator {
 }
 
 export class FilterDetail {
-    constructor(public column: string, public value: any, public operator: FilterOperator, public type?: FilterType) { }
+    constructor(public propertyName: string, public value: any, public operator: FilterOperator, public type?: FilterType) { }
 }
 
 export function filterJsonArray(jsonArray: Array<any>, filterDetails: Array<FilterDetail>): any {
@@ -71,7 +71,7 @@ export const compareValues = function (jsonArray: Array<any>, filterDetails: Arr
     for (const [index, objectToCheck] of jsonArray.entries()) {
         let itemMatches = true;
         for (const filterDetail of filterDetails) {
-            const columnValue = getColumnValue(filterDetail.column, objectToCheck);
+            const columnValue = getColumnValue(filterDetail.propertyName, objectToCheck);
             const parsedValue = TypeConversion(columnValue).value;
             const comparisonValue = TypeConversion(filterDetail.value).value;
 
