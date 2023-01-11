@@ -1,4 +1,4 @@
-import { FilterDetail, filterJsonArray, FilterType } from "./functions/filter";
+import { FilterDetail, filterJsonArray, FilterOperator, FilterType } from "./functions/filter";
 import { groupJsonArray } from "./functions/group";
 import { selectJsonArray } from "./functions/select";
 import { SortDetail, SortDirection, sortJsonArray } from "./functions/sort";
@@ -28,7 +28,7 @@ class JOQ {
 
     /** Order the array ascending or descending for the values of given property*/
     orderBy(propertyName: string, direction: SortDirection) {
-        this.sortDetails.push({ column: propertyName, direction });
+        this.sortDetails.push({ propertyName, direction });
         return this;
     }
 
@@ -38,26 +38,39 @@ class JOQ {
     }
 
     /**
-     * Set the complete where clause specifications
+     * Set the complete where / filter clause specification, for automated processes
      * @param {Array<FilterDetail>} filterDetails an array with { column: string, value: any, operator: FilterOperator, type?: FilterType }
      * @returns 
      */
-    where(filterDetails: Array<FilterDetail>) {
-        this.filterDetails = filterDetails;
+    filter(filterDetails: Array<FilterDetail>) {
+        if (Array.isArray(filterDetails)) {
+            this.filterDetails = filterDetails;
+        }
+        else {
+            this.filterDetails.push(filterDetails);
+        }
+        return this;
+    };
+
+    /**
+     * Add a where clause
+     * @param {Array<FilterDetail>} filterDetails an array with { column: string, value: any, operator: FilterOperator, type?: FilterType }
+     * @returns 
+     */
+    where(propertyName: string, operator: FilterOperator, value: any, type?: FilterType) {
+        this.filterDetails.push({ propertyName, operator, value, type });
         return this;
     };
 
     /** Same as where, but prefills the FilterType with 'and' */
-    andWhere(filterDetail: FilterDetail) {
-        filterDetail.type = FilterType.And;
-        this.filterDetails.push(filterDetail);
+    andWhere(propertyName: string, operator: FilterOperator, value: any) {
+        this.where(propertyName, operator, value, FilterType.And);
         return this;
     };
 
     /** Same as where, but prefills the FilterType with 'or' */
-    orWhere(filterDetail: FilterDetail) {
-        filterDetail.type = FilterType.Or;
-        this.filterDetails.push(filterDetail);
+    orWhere(propertyName: string, operator: FilterOperator, value: any) {
+        this.where(propertyName, operator, value, FilterType.Or);
         return this;
     };
 
@@ -66,25 +79,20 @@ class JOQ {
      * @param {Array<string> | String} groupByProperties 
      * @returns joq object
      */
-    group(groupByProperties: Array<string> | string) {
-        if (Array.isArray(groupByProperties)) {
-            this.groupByProperties = groupByProperties;
-        }
-        else {
-            this.groupByProperties.push(groupByProperties);
-        }
+    group(groupByProperties: Array<string>) {
+        this.groupByProperties = groupByProperties;
         return this;
     }
 
     /** Same as group, semantic sugar */
-    groupBy(property: string) {
-        this.groupByProperties.push(property);
+    groupBy(propertyName: string) {
+        this.groupByProperties.push(propertyName);
         return this;
     };
 
     /** Same as group, semantic sugar */
-    thenGroupBy(property: string) {
-        this.groupByProperties.push(property);
+    thenGroupBy(propertyName: string) {
+        this.groupByProperties.push(propertyName);
         return this;
     };
 

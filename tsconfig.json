@@ -7,6 +7,8 @@
     "moduleResolution": "Node",
     "strict": true,
     "resolveJsonModule": true,
+    "declaration": true,
+    "outDir": "dist",
     "isolatedModules": true,
     "esModuleInterop": true,
     "noEmit": true,
@@ -15,5 +17,6 @@
     "noImplicitReturns": true,
     "skipLibCheck": true
   },
-  "include": ["src", "dev", "prebuild/main.js", "rollup.config.js"]
+  "exclude": ["**/__tests__"],
+  "include": ["src"]
 }

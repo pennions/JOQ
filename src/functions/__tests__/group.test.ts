@@ -51,13 +51,6 @@ describe("Tests groupBy function", () => {
         expect(result.length).toBe(5);
     });
 
-    test('It can also just use group for a single grouping', () => {
-        const joq = new JOQ(testArray);
-        joq.group("age");
-        const result = joq.execute();
-        expect(result.length).toBe(3);
-    });
-
     test('It can also just use group for a multiple grouping', () => {
         const joq = new JOQ(testArray);
         joq.group(["age", "name"]);
@@ -67,7 +60,7 @@ describe("Tests groupBy function", () => {
 
     test('It can group and sort at the same time', () => {
         const joq = new JOQ(testArray);
-        joq.group("age");
+        joq.groupBy("age");
         joq.orderBy("name", SortDirection.ascending);
         const result = joq.execute();
         expect(result[0][0].name).toBe("Jerry");

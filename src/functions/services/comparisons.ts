@@ -50,7 +50,9 @@ export function getComparisonFunction(comparisonOperator: string): Function {
             return superNotEquals;
         case "like":
         case "~":
+        case "contains":
             return like;
+        case "!contains":
         case "!like":
         case "!~":
             return notLike;

@@ -44,11 +44,11 @@ export const TypeCheck = (inputValue: any): DataType => {
         return DataType.Currency;
     }
 
-    
+
     if (!new RegExp(ValueRegexes.string).exec(inputValue) && new RegExp(ValueRegexes.float).exec(inputValue.toString())) {
         return DataType.Float;
     }
-    
+
     if (!isNaN(inputValue) || inputValue === 0) {
         return DataType.Number;
     }
@@ -120,7 +120,7 @@ export const TypeConversion = (inputValue: any, dataType?: DataType): ValueInfo 
             break;
         }
         case DataType.Object: {
-            result.value = JSON.stringify(inputValue);
+            result.value = inputValue;
             break;
         }
         case DataType.Undefined: {
@@ -134,3 +134,17 @@ export const TypeConversion = (inputValue: any, dataType?: DataType): ValueInfo 
     }
     return result;
 };
+
+export function getColumnValue(column: string, jsonObject: any) {
+    const propertyTrail = column.split('.');
+
+    /** it will be an object first, and later it will be the actual value */
+    let objectValue: any;
+
+    for (let property of propertyTrail) {
+        property = property.trim();
+        if (!objectValue) objectValue = jsonObject[property];
+        else if(typeof objectValue === "object" && !Array.isArray(objectValue)) objectValue = objectValue[property];
+    }
+    return objectValue;
+}
