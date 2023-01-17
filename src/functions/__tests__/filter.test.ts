@@ -132,4 +132,11 @@ describe("Tests the filters", () => {
         const result = joq.execute();
         expect(result[0].name).toBe("Jonathan");
     });
+
+    test('It can find a text in an array using only orWhere', () => {
+        const joq = new JOQ(testArrayWithNestedObjects);
+        joq.orWhere("name", FilterOperator.Like, "Dog");
+        const result = joq.execute();
+        expect(result[0].name).toBe("Dog");
+    });
 });

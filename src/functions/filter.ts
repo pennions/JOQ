@@ -40,7 +40,9 @@ function filterFunction(jsonArray: Array<any>, filterDetails: Array<FilterDetail
         if (!filter.type || filter.type === FilterType.And) {
             filterGroup.push(filter);
         } else {
-            filters.push(filterGroup);
+            if (filterGroup.length) {
+                filters.push(filterGroup);
+            }
             filterGroup = [filter];
         }
     }
