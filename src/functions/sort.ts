@@ -10,12 +10,17 @@ export class SortDetail {
 export function sortJsonArray(jsonArray: Array<any>, sortDetails: Array<SortDetail>): any {
     if (!sortDetails || sortDetails.length === 0) return jsonArray;
 
-    if (Array.isArray(jsonArray[0])) {
-        sortGroupedJsonArray(jsonArray, sortDetails);
+    /** need to make a copy, sort is in-place. So original order would be lost */
+    const newJsonArray = Object.assign([], jsonArray);
+
+    if (Array.isArray(newJsonArray[0])) {
+        sortGroupedJsonArray(newJsonArray, sortDetails);
     }
     else {
-        jsonArray.sort(sortFunction(sortDetails));
+        newJsonArray.sort(sortFunction(sortDetails));
     }
+
+    return newJsonArray;
 };
 
 export const sortGroupedJsonArray = (groupedJsonArray: Array<Array<any>>, sortDetails: Array<SortDetail>) => {
