@@ -13,7 +13,6 @@ export function sortJsonArray(jsonArray: Array<any>, sortDetails: Array<SortDeta
     /** need to make a copy, sort is in-place. So original order would be lost */
     const newJsonArray = Object.assign([], jsonArray);
 
-
     if (Array.isArray(newJsonArray[0])) {
         sortGroupedJsonArray(newJsonArray, sortDetails);
     }
