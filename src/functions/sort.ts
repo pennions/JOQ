@@ -19,6 +19,8 @@ export function sortJsonArray(jsonArray: Array<any>, sortDetails: Array<SortDeta
     else {
         newJsonArray.sort(sortFunction(sortDetails));
     }
+
+    return newJsonArray;
 };
 
 export const sortGroupedJsonArray = (groupedJsonArray: Array<Array<any>>, sortDetails: Array<SortDetail>) => {

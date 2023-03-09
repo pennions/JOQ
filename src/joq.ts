@@ -113,8 +113,8 @@ class JOQ {
         const selectedJsonArray = selectJsonArray(this.model, this.selection);
         const filteredJsonArray = filterJsonArray(selectedJsonArray, this.filterDetails);
         const groupedJsonArray = groupJsonArray(filteredJsonArray, this.groupByProperties);
-        sortJsonArray(groupedJsonArray, this.sortDetails);
-        return groupedJsonArray;
+        const sortedJsonArray = sortJsonArray(groupedJsonArray, this.sortDetails);
+        return sortedJsonArray;
     }
 
     /**
