@@ -36,8 +36,9 @@ function sortFunction(applicableSorters: Array<SortDetail>, index = 0) {
 
         const { propertyName, direction } = applicableSorters[index];
 
-        let valueA = a[propertyName];
-        let valueB = b[propertyName];
+        /** if it is undefined, just make it a string. */
+        let valueA = a[propertyName] || "";
+        let valueB = b[propertyName] || "";
 
         const dateRegex = /^(\d{1,4}-\d{1,4}-\d{1,4}(T)?)/gim;
 
