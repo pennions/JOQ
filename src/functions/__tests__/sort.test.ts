@@ -32,6 +32,9 @@ const testArray = [
         age: 30,
         rollNo: 'R06'
     },
+    {
+        age: 42
+    },
 ];
 
 describe("Tests sorting function", () => {
@@ -40,7 +43,7 @@ describe("Tests sorting function", () => {
         const joq = new JOQ(testArray);
         joq.sort([{ propertyName: "name", direction: SortDirection.ascending }]);
         const result = joq.execute();
-        expect(result[0].name).toBe('Anne');
+        expect(result[1].name).toBe('Anne');
     });
 
     test('It sorts the testArray by Name, in Descending order', () => {
@@ -54,7 +57,7 @@ describe("Tests sorting function", () => {
         const joq = new JOQ(testArray);
         joq.sort([{ propertyName: "name", direction: SortDirection.ascending }, { propertyName: "rollNo", direction: SortDirection.ascending }]);
         const result = joq.execute();
-        expect(result[5].rollNo).toBe('R06');
+        expect(result[6].rollNo).toBe('R06');
     });
 
     test('It sorts the testArray by Name Descending and then By Rollno, in Ascending order', () => {
