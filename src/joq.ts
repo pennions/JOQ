@@ -112,9 +112,9 @@ class JOQ {
     execute() {
         const selectedJsonArray = selectJsonArray(this.model, this.selection);
         const filteredJsonArray = filterJsonArray(selectedJsonArray, this.filterDetails);
-        const groupedJsonArray = groupJsonArray(filteredJsonArray, this.groupByProperties);
-        const sortedJsonArray = sortJsonArray(groupedJsonArray, this.sortDetails);
-        return sortedJsonArray;
+        const sortedJsonArray = sortJsonArray(filteredJsonArray, this.sortDetails);
+        const groupedJsonArray = groupJsonArray(sortedJsonArray, this.groupByProperties);
+        return groupedJsonArray;
     }
 
     /**

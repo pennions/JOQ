@@ -139,4 +139,14 @@ describe("Tests the filters", () => {
         const result = joq.execute();
         expect(result[0].name).toBe("Dog");
     });
+
+    test('It can query with or', () => {
+
+        const joq = new JOQ(testArray);
+        joq.filter([{ propertyName: "book", operator: FilterOperator.Contains, value: "comic", type: FilterType.Or }, { propertyName: "book", operator: FilterOperator.Contains, value: "Fairytales", type: FilterType.Or }]);
+        const result = joq.execute();
+        
+        expect(result[0]).toBe(testArray.find(ta => ta.book.includes("fairytale")));
+        expect(result[1]).toBe(testArray.find(ta => ta.book.includes("comic")));
+    });
 });

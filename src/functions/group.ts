@@ -14,7 +14,8 @@ function groupFunction(objects: Array<any>, groupByProperty: string): Array<any>
     const groupIndex: Array<string> = []; // the index in the arrayOfGroupedObjects
     do {
         if (!objects || objects.length === 0) break;
-        const nextInline = objects.pop();
+        /** need to use shift instead of pop, because of sorting. else we are unintentionally reversing the array */
+        const nextInline = objects.shift();
 
         if (!nextInline) break;
 

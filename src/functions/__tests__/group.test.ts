@@ -63,7 +63,7 @@ describe("Tests groupBy function", () => {
         joq.groupBy("age");
         joq.orderBy("name", SortDirection.ascending);
         const result = joq.execute();
-        expect(result[0][0].name).toBe("Jerry");
+        expect(result[0][0].name).toBe("Anne");
     });
 
 });
