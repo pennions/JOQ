@@ -146,7 +146,7 @@ describe("Tests the filters", () => {
         joq.filter([{ propertyName: "book", operator: FilterOperator.Contains, value: "comic", type: FilterType.Or }, { propertyName: "book", operator: FilterOperator.Contains, value: "Fairytales", type: FilterType.Or }]);
         const result = joq.execute();
         
-        expect(result[0]).toBe(testArray.find(ta => ta.book.includes("fairytale")));
-        expect(result[1]).toBe(testArray.find(ta => ta.book.includes("comic")));
+        expect(result[0]).toStrictEqual(testArray.find(ta => ta.book.includes("fairytale")));
+        expect(result[1]).toStrictEqual(testArray.find(ta => ta.book.includes("comic")));
     });
 });

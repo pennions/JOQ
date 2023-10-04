@@ -14,6 +14,7 @@ This is a library designed to make querying JSON objects a breeze.
         - [Filter / Where](#filter--where)
         - [Group](#group)
         - [Select](#select)
+        - [Distinct](#distinct)
         - [Execute](#execute)
         - [Sum](#sum)
 - [Support us](#support-us)
@@ -210,6 +211,17 @@ If you want to make a subselection, you can provide a string or an array of stri
 ```js
 select(selection: Array<string> | string) 
 ```
+
+### Distinct
+
+This function takes an array of values which will be treated as unique.
+Merging the properties from the objects that also have the exact same value of this property.
+
+```js
+distinct(properties: Array<string> | string) 
+```
+
+**N.B.** this will also add any numeric fields. If you do not want this behaviour, make that field distinct as well.
 
 ### Execute
 
