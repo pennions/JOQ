@@ -8,6 +8,7 @@ This is a library designed to make querying JSON objects a breeze.
     - [Installation](#installation)
         - [npm](#npm)
         - [yarn](#yarn)
+        - [CDN](#cdn)
     - [Getting started](#getting-started)
     - [Functions](#functions)
         - [Sort / Order](#sort--order)
@@ -39,6 +40,19 @@ Then import it in your code as follows:
 
 ```js
 import JOQ from "@pennions/joq"
+```
+
+### CDN
+
+Just add 
+```html
+<script src="https://cdn.jsdelivr.net/npm/@pennions/joq"></script>
+```
+
+and use it like
+
+```js
+const queryable = new joq(yourJsonArray);
 ```
 
 ## Getting started
