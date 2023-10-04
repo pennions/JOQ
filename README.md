@@ -8,12 +8,14 @@ This is a library designed to make querying JSON objects a breeze.
     - [Installation](#installation)
         - [npm](#npm)
         - [yarn](#yarn)
+        - [CDN](#cdn)
     - [Getting started](#getting-started)
     - [Functions](#functions)
         - [Sort / Order](#sort--order)
         - [Filter / Where](#filter--where)
         - [Group](#group)
         - [Select](#select)
+        - [Distinct](#distinct)
         - [Execute](#execute)
         - [Sum](#sum)
 - [Support us](#support-us)
@@ -38,6 +40,19 @@ Then import it in your code as follows:
 
 ```js
 import JOQ from "@pennions/joq"
+```
+
+### CDN
+
+Just add 
+```html
+<script src="https://cdn.jsdelivr.net/npm/@pennions/joq"></script>
+```
+
+and use it like
+
+```js
+const queryable = new joq(yourJsonArray);
 ```
 
 ## Getting started
@@ -210,6 +225,17 @@ If you want to make a subselection, you can provide a string or an array of stri
 ```js
 select(selection: Array<string> | string) 
 ```
+
+### Distinct
+
+This function takes an array of values which will be treated as unique.
+Merging the properties from the objects that also have the exact same value of this property.
+
+```js
+distinct(properties: Array<string> | string) 
+```
+
+**N.B.** this will also sum any numeric fields. If you do not want this behaviour, make that field distinct as well.
 
 ### Execute
 

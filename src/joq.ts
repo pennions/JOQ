@@ -1,3 +1,4 @@
+import { distinctJsonProperties } from "./functions/distinct";
 import { FilterDetail, filterJsonArray, FilterOperator, FilterType } from "./functions/filter";
 import { groupJsonArray } from "./functions/group";
 import { selectJsonArray } from "./functions/select";
@@ -11,13 +12,14 @@ class JOQ {
     private filterDetails: Array<FilterDetail> = [];
     private selection: Array<string> = [];
     private groupByProperties: Array<string> = [];
+    private distinctProperties: Array<string> = [];
 
     /**
      * Jelmers Object Query Class
      */
     constructor(jsonArray: Array<any>) {
         /** Make a hard copy */
-        this.model = Object.assign([], jsonArray);
+        this.model = JSON.parse(JSON.stringify(jsonArray));
     }
 
     /** Same as order, but here you can give the complete sorting details.*/
@@ -106,14 +108,31 @@ class JOQ {
         else if (selection !== "*") {
             this.selection = [selection];
         }
+        return this;
     };
+
+    /** 
+     * distinct on specified columns in objects and make them unique and merge the other properties
+     */
+    distinct(properties: Array<string> | string) {
+        if (Array.isArray(properties)) {
+            this.distinctProperties = properties;
+        }
+        else if (properties) {
+            this.distinctProperties = [properties];
+        }
+        return this;
+    }
 
     /** Executes selection, group and where statements provided */
     execute() {
-        const selectedJsonArray = selectJsonArray(this.model, this.selection);
+        /** always use a fresh copy. */
+        const copyOfModel = JSON.parse(JSON.stringify(this.model));
+        const selectedJsonArray = selectJsonArray(copyOfModel, this.selection);
         const filteredJsonArray = filterJsonArray(selectedJsonArray, this.filterDetails);
         const sortedJsonArray = sortJsonArray(filteredJsonArray, this.sortDetails);
-        const groupedJsonArray = groupJsonArray(sortedJsonArray, this.groupByProperties);
+        const distinctJsonArray = distinctJsonProperties(sortedJsonArray, this.distinctProperties);
+        const groupedJsonArray = groupJsonArray(distinctJsonArray, this.groupByProperties);
         return groupedJsonArray;
     }
 
