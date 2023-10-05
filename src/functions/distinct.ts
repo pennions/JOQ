@@ -1,21 +1,4 @@
-function getValue(object: any, propertyString: string) {
-    const trail = propertyString.split(".");
-    const trailLength = trail.length;
-
-    let value;
-    let next = object;
-    for (let trailIndex = 0; trailIndex < trailLength; trailIndex++) {
-        const trailPart = trail[trailIndex];
-
-        if (!next[trailPart]) return value ?? "";
-        else {
-            value = next[trailPart];
-            next = next[trailPart];
-        }
-    }
-    return value ?? "";
-}
-
+import { getColumnValue } from "./services/value";
 
 export function distinctJsonProperties(jsonArray: Array<any>, columnNames: Array<string>) {
 
@@ -33,7 +16,7 @@ export function distinctJsonProperties(jsonArray: Array<any>, columnNames: Array
         let newCriteria = "";
 
         for (const criteriaColumn of columnNames) {
-            const critValue = getValue(jsonObject, criteriaColumn);
+            const critValue = getColumnValue(criteriaColumn, jsonObject);
             /** for use to group */
             criteria[criteriaColumn] = critValue;
             /** track which combination of values has been grouped already  */
@@ -64,7 +47,6 @@ export function distinctJsonProperties(jsonArray: Array<any>, columnNames: Array
                 mergedObject = jsonObject;
                 continue;
             }
-
 
             for (const column of jsonProperties) {
                 if (!columnNames.includes(column)) {
