@@ -169,7 +169,7 @@ Can be ```"and"``` / ```"or"```
     propertyName: string, 
     value: any, 
     operator: FilterOperator, 
-    type?: FilterType /** optional, defaults to "and" **/
+    type?: FilterType, /** optional, defaults to "and" **/
     ignoreCase?: boolean /** optional, defaults to "false" **/
 }
 ```
