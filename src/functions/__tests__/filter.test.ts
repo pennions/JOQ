@@ -133,6 +133,14 @@ describe("Tests the filters", () => {
         expect(result[0].name).toBe("Jonathan");
     });
 
+    test('It can find an object on an attribute that is not in selection', () => {
+        const joq = new JOQ(testArray);
+        joq.select("book");
+        joq.where("id", FilterOperator.Equals, 2);
+        const result = joq.execute();
+        expect(result[0].book).toBe("A book of fairytales");
+    });
+
     test('It can find a text in an array using only orWhere', () => {
         const joq = new JOQ(testArrayWithNestedObjects);
         joq.orWhere("name", FilterOperator.Like, "Dog");
@@ -145,7 +153,7 @@ describe("Tests the filters", () => {
         const joq = new JOQ(testArray);
         joq.filter([{ propertyName: "book", operator: FilterOperator.Contains, value: "comic", type: FilterType.Or }, { propertyName: "book", operator: FilterOperator.Contains, value: "Fairytales", type: FilterType.Or }]);
         const result = joq.execute();
-        
+
         expect(result[0]).toStrictEqual(testArray.find(ta => ta.book.includes("fairytale")));
         expect(result[1]).toStrictEqual(testArray.find(ta => ta.book.includes("comic")));
     });

@@ -128,11 +128,11 @@ class JOQ {
     execute() {
         /** always use a fresh copy. */
         const copyOfModel = JSON.parse(JSON.stringify(this.model));
-        const selectedJsonArray = selectJsonArray(copyOfModel, this.selection);
-        const filteredJsonArray = filterJsonArray(selectedJsonArray, this.filterDetails);
+        const filteredJsonArray = filterJsonArray(copyOfModel, this.filterDetails);
         const sortedJsonArray = sortJsonArray(filteredJsonArray, this.sortDetails);
         const distinctJsonArray = distinctJsonProperties(sortedJsonArray, this.distinctProperties);
-        const groupedJsonArray = groupJsonArray(distinctJsonArray, this.groupByProperties);
+        const selectedJsonArray = selectJsonArray(distinctJsonArray, this.selection);
+        const groupedJsonArray = groupJsonArray(selectedJsonArray, this.groupByProperties);
         return groupedJsonArray;
     }
 
