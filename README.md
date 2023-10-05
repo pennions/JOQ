@@ -170,24 +170,25 @@ Can be ```"and"``` / ```"or"```
     value: any, 
     operator: FilterOperator, 
     type?: FilterType /** optional, defaults to "and" **/
+    ignoreCase?: boolean /** optional, defaults to "false" **/
 }
 ```
-
+**N.B.** ignoreCase only works with 'equals' operator, 'like' already ignores case.
 
 **Functions**
 
 ```js
-where(propertyName: string, operator: FilterOperator, value: any, type?: FilterType) 
+where(propertyName: string, operator: FilterOperator, value: any, type?: FilterType, ignoreCase?: boolean) 
 ```
 
 Implicitly adds "and" type, but where does this as well. So treat it as syntactic sugar.
 ```js
-andWhere(propertyName: string, operator: FilterOperator, value: any)
+andWhere(propertyName: string, operator: FilterOperator, value: any, ignoreCase?: boolean)
 ```
 
 Implicitly adds "or" type
 ```js
-orWhere(propertyName: string, operator: FilterOperator, value: any)
+orWhere(propertyName: string, operator: FilterOperator, value: any, ignoreCase?: boolean)
 ```
 
 Or if you want to add all the details at once in an array, you can use the filter function.
@@ -195,7 +196,6 @@ Or if you want to add all the details at once in an array, you can use the filte
 ```js
 filter(filterDetails: Array<FilterDetail>) 
 ```
-
 
 ### Group
 

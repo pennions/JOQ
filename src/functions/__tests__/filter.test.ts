@@ -157,4 +157,21 @@ describe("Tests the filters", () => {
         expect(result[0]).toStrictEqual(testArray.find(ta => ta.book.includes("fairytale")));
         expect(result[1]).toStrictEqual(testArray.find(ta => ta.book.includes("comic")));
     });
+
+    test('It can query equals with case insensitive', () => {
+        const caseSearch = [{
+            id: 1,
+            name: "FOO"
+        },
+        {
+            id: 2,
+            name: "FOOz"
+        }];
+
+        const joq = new JOQ(caseSearch);
+        joq.where("name", FilterOperator.Equals, "fOo", FilterType.And, true);
+        const result = joq.execute();
+
+        expect(result[0]).toStrictEqual(caseSearch[0]);
+    });
 });

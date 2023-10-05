@@ -2,7 +2,12 @@ const bigger = (value: any, comparisonValue: any) => value > comparisonValue;
 const smaller = (value: any, comparisonValue: any) => value < comparisonValue;
 const biggerEquals = (value: any, comparisonValue: any) => value >= comparisonValue;
 const smallerEquals = (value: any, comparisonValue: any) => value <= comparisonValue;
-const equals = (value: any, comparisonValue: any) => value == comparisonValue;
+const equals = (value: any, comparisonValue: any, ignoreCase: boolean) => {
+    if (ignoreCase)
+        return value.toLowerCase() == comparisonValue.toLowerCase();
+    else
+        return value == comparisonValue;
+};
 const superEquals = (value: any, comparisonValue: any) => value === comparisonValue;
 const notEquals = (value: any, comparisonValue: any) => value != comparisonValue;
 const superNotEquals = (value: any, comparisonValue: any) => value !== comparisonValue;
