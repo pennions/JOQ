@@ -59,20 +59,20 @@ class JOQ {
      * @param {Array<FilterDetail>} filterDetails an array with { column: string, value: any, operator: FilterOperator, type?: FilterType }
      * @returns 
      */
-    where(propertyName: string, operator: FilterOperator, value: any, type?: FilterType) {
-        this.filterDetails.push({ propertyName, operator, value, type });
+    where(propertyName: string, operator: FilterOperator, value: any, type?: FilterType, ignoreCase?: boolean) {
+        this.filterDetails.push({ propertyName, operator, value, type, ignoreCase });
         return this;
     };
 
     /** Same as where, but prefills the FilterType with 'and' */
-    andWhere(propertyName: string, operator: FilterOperator, value: any) {
-        this.where(propertyName, operator, value, FilterType.And);
+    andWhere(propertyName: string, operator: FilterOperator, value: any, ignoreCase?: boolean) {
+        this.where(propertyName, operator, value, FilterType.And, ignoreCase);
         return this;
     };
 
     /** Same as where, but prefills the FilterType with 'or' */
-    orWhere(propertyName: string, operator: FilterOperator, value: any) {
-        this.where(propertyName, operator, value, FilterType.Or);
+    orWhere(propertyName: string, operator: FilterOperator, value: any, ignoreCase?: boolean) {
+        this.where(propertyName, operator, value, FilterType.Or, ignoreCase);
         return this;
     };
 

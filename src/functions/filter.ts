@@ -23,7 +23,7 @@ export enum FilterOperator {
 }
 
 export class FilterDetail {
-    constructor(public propertyName: string, public value: any, public operator: FilterOperator, public type?: FilterType) { }
+    constructor(public propertyName: string, public value: any, public operator: FilterOperator, public type?: FilterType, public ignoreCase?: boolean) { }
 }
 
 export function filterJsonArray(jsonArray: Array<any>, filterDetails: Array<FilterDetail>): any {
@@ -79,7 +79,7 @@ export const compareValues = function (jsonArray: Array<any>, filterDetails: Arr
 
             const comparisonFunction = getComparisonFunction(filterDetail.operator);
 
-            if (!comparisonFunction(parsedValue, comparisonValue)) {
+            if (!comparisonFunction(parsedValue, comparisonValue, filterDetail.ignoreCase)) {
                 itemMatches = false;
                 break;
             }
