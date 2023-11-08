@@ -232,7 +232,7 @@ This function takes an array of values which will be treated as unique.
 Merging the properties from the objects that also have the exact same value of this property.
 
 ```js
-distinct(properties: Array<string> | string) 
+distinct(properties: Array<string> | string, concatenationToken: string) 
 ```
 
 **N.B.** this will also sum any numeric fields. If you do not want this behaviour, make that field distinct as well.
