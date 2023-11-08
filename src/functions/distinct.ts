@@ -1,6 +1,6 @@
 import { getColumnValue } from "./services/value";
 
-export function distinctJsonProperties(jsonArray: Array<any>, columnNames: Array<string>) {
+export function distinctJsonProperties(jsonArray: Array<any>, columnNames: Array<string>, concatenationToken: string) {
 
     /** Nothing to distinct */
     if (!columnNames || !columnNames.length) {
@@ -87,7 +87,7 @@ export function distinctJsonProperties(jsonArray: Array<any>, columnNames: Array
     mergedObjects.forEach((jsonObject: any) => {
         for (const prop in jsonObject) {
             if (Array.isArray(jsonObject[prop])) {
-                jsonObject[prop] = jsonObject[prop].join(", ");
+                jsonObject[prop] = jsonObject[prop].join(concatenationToken);
             }
         }
     });

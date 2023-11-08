@@ -13,6 +13,7 @@ class JOQ {
     private selection: Array<string> = [];
     private groupByProperties: Array<string> = [];
     private distinctProperties: Array<string> = [];
+    private concatenationToken: string = ', ';
 
     /**
      * Jelmers Object Query Class
@@ -114,7 +115,12 @@ class JOQ {
     /** 
      * distinct on specified columns in objects and make them unique and merge the other properties
      */
-    distinct(properties: Array<string> | string) {
+    distinct(properties: Array<string> | string, concatenationToken?: string) {
+
+        if (concatenationToken) {
+            this.concatenationToken = concatenationToken;
+        }
+
         if (Array.isArray(properties)) {
             this.distinctProperties = properties;
         }
@@ -130,7 +136,7 @@ class JOQ {
         const copyOfModel = JSON.parse(JSON.stringify(this.model));
         const filteredJsonArray = filterJsonArray(copyOfModel, this.filterDetails);
         const sortedJsonArray = sortJsonArray(filteredJsonArray, this.sortDetails);
-        const distinctJsonArray = distinctJsonProperties(sortedJsonArray, this.distinctProperties);
+        const distinctJsonArray = distinctJsonProperties(sortedJsonArray, this.distinctProperties, this.concatenationToken);
         const selectedJsonArray = selectJsonArray(distinctJsonArray, this.selection);
         const groupedJsonArray = groupJsonArray(selectedJsonArray, this.groupByProperties);
         return groupedJsonArray;

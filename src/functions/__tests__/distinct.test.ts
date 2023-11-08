@@ -48,6 +48,16 @@ describe("Tests the distinct function", () => {
         expect(result[0]).toEqual(expected);
     });
 
+    test("It can distinct on a property and merge the other columns with a custom concatenator", () => {
+
+        const expected =  "R01 | R04 | R05 | R06"
+
+        const joq = new JOQ(testArray);
+        joq.distinct("age", " | ");
+        const result = joq.execute();
+        expect(result[0].rollNo).toEqual(expected);
+    });
+
     test("It can distinct on multiple columns", () => {
 
         const expected = {
